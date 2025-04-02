@@ -15,7 +15,6 @@ import blogsController from "./controllers/blogs.js";
 
 // importing the functions from config file
 
-import { dbConnect } from "./config/config.js";
 import { passportConfig } from "./config/config.js";
 import { jwtConfig } from "./config/config.js";
 
@@ -24,7 +23,12 @@ dotenv.config();
 const app = express();
 
 // using all the functions from Config file
-dbConnect();
+
+// Database connection string
+mongoose.connect(process.env.MONGO_URI, {})
+.then((res) => console.log('Connected to mongoDB successfully'))
+.catch((err) => console.log(`Failed to connect: -${err}`));
+
 passportConfig();
 jwtConfig();
 
@@ -36,10 +40,15 @@ app.use(cors({
     methods: 'GET,POST,PUT,DELETE,HEAD,OPTIONS',
     credential: true }));
 
+app.use(express.json());
+
 // Connecting the api urls to controllers
 app.use("/api/blogs", blogsController);
 app.use("/api/users", usersController);
-
+app.get("/", (req, res) => {
+    res.send("Server is running...");
+  });
 // Starting the app
-app.listen(5000, () => console.log(`Server running on port ${5000}`));
+
+export default app;
 

@@ -1,5 +1,4 @@
 // IMporting all the necessary dependancies
-import mongoose from "mongoose";
 import passport from "passport";
 import { Strategy as JwtStrategy, ExtractJwt } from "passport-jwt";
 import dotenv from "dotenv";
@@ -9,12 +8,6 @@ import cloudinary from 'cloudinary';
 
 dotenv.config();
 
-// Database Connection string
-export const dbConnect = async () => {
-    mongoose.connect(process.env.MONGO_URI, {})
-    .then((res) => console.log('Connected to mongoDB successfully'))
-    .catch((err) => console.log(`Failed to connect: -${err}`));
-}
 
 // Passport.js Configuration
 
@@ -57,4 +50,4 @@ export const cloudinaryConfig = () => {
 export {cloudinary};
 
 
-export default { dbConnect, passportConfig, jwtConfig, cloudinaryConfig};
+export default { passportConfig, jwtConfig, cloudinaryConfig};
